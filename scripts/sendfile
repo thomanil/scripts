@@ -1,0 +1,18 @@
+#!/bin/bash
+# sendfile
+
+E_NO_ARGS=65
+
+if [ $# -lt 1 ]
+then
+    echo "Usage: `basename $0` file"
+    exit $E_NO_ARGS
+fi
+
+cwd=`pwd`
+target=/tmp/nc-sendfile-`basename $1`.tgz
+
+cd `dirname $1`
+tar -czf $target `basename $1`
+cat $target | nc -l 9666
+cd $cwd

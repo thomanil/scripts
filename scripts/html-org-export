@@ -1,0 +1,49 @@
+#!/usr/bin/env ruby
+
+def html_export_elisp(src_dir, dest_dir)
+  <<ELISP
+(package-initialize)
+(require 'org-publish)
+(require 'htmlize)
+
+(org-publish (quote
+	      ("blog" :base-directory "#{src_dir}"
+	       :base-extension "org"
+	       :publishing-directory "#{dest_dir}"
+	       :htmlized-source t
+	       :recursive t
+	       :table-of-contents nil
+	       :html-preamble nil
+	       :html-postamble nil
+	       :section-numbers nil
+	       :publishing-function org-publish-org-to-html
+	       :headline-levels 3
+	       :html-extension "html"
+	       :body-only nil)) nil)
+
+ELISP
+end
+
+if ARGV.size != 2
+  puts "Usage: html-org-export ORG_SRC_PATH HTML_DEST_PATH"
+  exit 1
+end
+
+src = ARGV[0]
+dest = ARGV[1]
+
+elcode_dest_path = "/tmp/last-html-export"
+
+File.open(elcode_dest_path, "w+") do |f|
+  filebody =  html_export_elisp(src, dest)
+  f.write(filebody)
+end
+
+puts "orgmode html export code generated at:"
+puts elcode_dest_path
+
+
+puts "running the org export..."
+`emacs --batch -l #{elcode_dest_path}`
+puts "orgfile exported to html files at #{dest}."
+puts "Note: .org-timestamps is created in current dir, remove if you need to rerun export or they will be skipped."

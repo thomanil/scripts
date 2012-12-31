@@ -1,0 +1,8 @@
+#!/usr/bin/env ruby       
+
+if !ARGV[0] 
+  puts "Usage: psgrepkill PROCESS_MATCHING_PATTERN"
+  exit 1
+end
+
+puts `ps ax | grep #{ARGV[0]} | awk '{print $1}' | xargs kill`

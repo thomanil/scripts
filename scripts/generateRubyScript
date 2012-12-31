@@ -1,0 +1,23 @@
+#!/usr/bin/env ruby
+
+require 'fileutils';
+
+if(!ARGV[0])
+	puts "\nUsage: generateRubyScript <filename>\n\n"
+	exit
+end
+
+
+SCRIPT_FILE_BODY = 
+<<BODY 
+#!/usr/bin/env ruby       
+
+puts 'This is a script template, edit me!';
+BODY
+
+
+File.open(ARGV[0], "w") do |file| 
+  file.write(SCRIPT_FILE_BODY);
+end
+
+FileUtils.chmod 0755, "#{ARGV[0]}", :verbose => true

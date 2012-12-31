@@ -1,0 +1,28 @@
+#!/usr/bin/env ruby
+
+# Run specified command every time a file in current directory or
+# a subdirectory (recursively) changes
+
+# Installation:
+# 1. gem install fssm
+# 2. Put this script in your path.
+
+# Usage:
+# waitforit CMD
+
+# Uses https://github.com/ttilley/fssm to watch for changes
+
+require 'rubygems'
+require 'fssm'
+
+cmd = ARGV.join(" ")
+
+def run(cmd)
+  puts `#{cmd}`
+end 
+
+FSSM.monitor('.', '**/*') do
+  update {|base, relative| run(cmd)}
+  delete {|base, relative| run(cmd)}
+  create {|base, relative| run(cmd)}
+end
