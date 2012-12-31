@@ -32,6 +32,8 @@ end
 src = ARGV[0]
 dest = ARGV[1]
 
+# TODO using tempfile library
+
 elcode_dest_path = "/tmp/last-html-export"
 
 File.open(elcode_dest_path, "w+") do |f|
