@@ -44,8 +44,7 @@ end
 puts "orgmode html export code generated at:"
 puts elcode_dest_path
 
-
 puts "running the org export..."
 `emacs --batch -l #{elcode_dest_path}`
 puts "orgfile exported to html files at #{dest}."
-puts "Note: .org-timestamps is created in current dir, remove if you need to rerun export or they will be skipped."
+puts "Note: .org-timestamps is created in your HOMEDIR, remove if you need to rerun export or they will be skipped."
